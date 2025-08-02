@@ -1,2 +1,2 @@
 # TestActivator
-Тестовый активатор Windows на Rust
+Активатор Windows с Playerok
