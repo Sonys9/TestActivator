@@ -1,0 +1,21 @@
+[package]
+name = "windows_activator"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+eframe = { version = "0.32.0", features = [
+    "default",
+    "__screenshot", # __screenshot is so we can dump a screenshot using EFRAME_SCREENSHOT_TO
+] }
+
+# For image support:
+egui_extras = { version = "0.32.0", features = ["default", "image"] }
+
+env_logger = { version = "0.10", default-features = false, features = [
+    "auto-color",
+    "humantime",
+] }
+
+reqwest = { version = "0.12.22", features = ["blocking"] }
+winreg = "0.55"
