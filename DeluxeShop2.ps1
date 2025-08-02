@@ -1,4 +1,3 @@
-# https://github.com/ImMALWARE/DeluxeShop
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -Name Window -Namespace Console -MemberDefinition '[DllImport("Kernel32.dll")]public static extern IntPtr GetConsoleWindow();[DllImport("user32.dll")]public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);'
 [void][Console.Window]::ShowWindow([Console.Window]::GetConsoleWindow(), 0)
@@ -213,7 +212,7 @@ if ($PSUICulture -eq "ru-RU") {
     ("Activate Windows 10 or 11 (including LTSC) via KM" + "S"))
 }
 
-$gstrings = @("irm https://raw.githubusercontent.com/ImMALWARE/$app/main/Activators", " | iex", "$env:ProgramFiles\Microsoft Office\root\vfs\System", "${env:ProgramFiles(x86)}\Microsoft Office\root\vfs\SystemX86")
+$gstrings = @("irm https://raw.githubusercontent.com/ImMALWARE/MalwTool/main/Activators", " | iex", "$env:ProgramFiles\Microsoft Office\root\vfs\System", "${env:ProgramFiles(x86)}\Microsoft Office\root\vfs\SystemX86")
 $activators = @{"Win10" = "HWID.ps1"; "WinKM" = ("KM" + "S10.ps1"); "ConvertEvaluationToFull" = "LTSCEvaluationToFull.ps1"; "WinServer" = ("ServerKM" + "S.ps1"); "OfficeVisio" = "VisioProject.ps1"; "OfficeProject" = "VisioProject.ps1"; "MobaXterm" = "MXT.ps1"; "Office 365" = "Osppcs.ps1"; "Office 2024" = "Osppcs.ps1"; "Office 2021" = "Osppcs.ps1"; "Office 2019" = "Osppcs.ps1"; "Office 2016" = "Osppcs.ps1"; "Office 2013" = ("KM" + "S2013.ps1")}
 $paths = @{"Office 365" = @($gstrings[2], $gstrings[3]); "Office 2024" = @($gstrings[2], $gstrings[3]); "Office 2021" = @($gstrings[2], $gstrings[3]); "Office 2019" = @($gstrings[2], $gstrings[3]); "Office 2016" = @($gstrings[2], $gstrings[3]); "Office 2013" = @("$env:ProgramFiles\Microsoft Office 15\root\vfs\System", "${env:ProgramFiles(x86)}\Microsoft Office 15\root\vfs\System"); "Prism Launcher" = @("$env:appdata\PrismLauncher"); "TL" = @("$env:appdata\.minecraft\TlauncherProfiles.json"); "MobaXterm" = @("${env:ProgramFiles(x86)}\Mobatek\MobaXterm\version.dat")}
 
@@ -658,7 +657,7 @@ function bypass_office_geoblock {
 
 $DlWin10.Add_Click({
     try {
-        $products = Invoke-RestMethod "https://raw.githubusercontent.com/ImMALWARE/$app/main/windl.json"
+        $products = Invoke-RestMethod "https://raw.githubusercontent.com/ImMALWARE/MalwTool/main/windl.json"
         $response = Invoke-RestMethod "https://api.gravesoft.dev/msdl/proxy?product_id=$($products."10"[0])&sku_id=$($products."10"[1 + ($PSUICulture -ne "ru-RU")])"
         Start-Process $response.ProductDownloadOptions[$response.ProductDownloadOptions.Count - 1].Uri
     } catch {
@@ -671,7 +670,7 @@ $DlWin10.Add_Click({
 
 $DlWin11.Add_Click({
     try {
-        $products = Invoke-RestMethod "https://raw.githubusercontent.com/ImMALWARE/$app/main/windl.json"
+        $products = Invoke-RestMethod "https://raw.githubusercontent.com/ImMALWARE/MalwTool/main/windl.json"
         Start-Process (Invoke-RestMethod "https://api.gravesoft.dev/msdl/proxy?product_id=$($products."11"[0])&sku_id=$($products."11"[1 + ($PSUICulture -ne "ru-RU")])").ProductDownloadOptions[0].Uri
     } catch {
         $result = $mb.Invoke($strings[25], $app, "YesNo", "Warning")
@@ -1124,7 +1123,7 @@ $lolzteam.Add_Click({
 })
 
 $github.Add_Click({
-    Start-Process "https://github.com/ImMALWARE/$app"
+    Start-Process "https://github.com/ImMALWARE/MalwTool"
 })
 
 $telegram.Add_Click({
@@ -1136,7 +1135,7 @@ $lolzteam2.Add_Click({
 })
 
 $github2.Add_Click({
-    Start-Process "https://github.com/ImMALWARE/$app/issues/new"
+    Start-Process "https://github.com/ImMALWARE/MalwTool/issues/new"
 })
 
 $form.Controls.Add($tabs)
