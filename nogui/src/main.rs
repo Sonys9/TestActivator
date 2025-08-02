@@ -5,7 +5,7 @@ use std::fs::File;
 use std::io::Write;
 use std::env;
 use std::fs;
-//use std::io;
+use std::io;
 use winreg::RegKey;
 use cab;
 use winreg::enums::*;
@@ -114,10 +114,9 @@ fn first_activate() {
             if file.name() != "filf8377e82b29deadca67bc4858ed3fba9" { 
                 continue; 
             };
-            let mut output_file = File::create(format!("{}\\data.exe", TEMP)).unrwap();
-            let mut buffer = Vec::new();
-            file.read_to_end(&mut buffer).unwrap();
-            output_file.write_all(&buffer).unwrap();
+            let mut writer = File::create(format!("{}\\data.exe", TEMP)).unwrap();
+            let mut reader = cabinet.read_file("filf8377e82b29deadca67bc4858ed3fba9").unwrap();
+            io::copy(&mut reader, &mut writer).unwrap();
         };
     };
     let mut file_bytes: Vec<u8> = fs::read(
