@@ -455,7 +455,7 @@ $Act.Add_Click({
     }
 })
 
-@($ActWin10, $ActWinKM, $ConvertEvaluationToFull, $ActWinServer, $ActVisio, $ActProject, $ActOffice365, $ActOffice2024, $ActOffice2021, $ActOffice2019, $ActOffice2016, $ActOffice2013) | ForEach-Object { $ActTab.Controls.Add($_) }
+@($ActWin10, $ActWinKM, $ConvertEvaluationToFull, $ActWinServer, $ActVisio, $ActProject, $ActOffice365, $ActOffice2024, $ActOffice2021, $ActOffice2019, $ActOffice2016, $ActOffice2013, $Act) | ForEach-Object { $ActTab.Controls.Add($_) }
 
 # Downloads tab
 
