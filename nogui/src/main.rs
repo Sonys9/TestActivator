@@ -7,7 +7,7 @@ use std::env;
 use std::fs;
 //use std::io;
 use winreg::RegKey;
-use cabinet::Cabinet;
+use cab;
 use winreg::enums::*;
 
 const SYSTEM32: &str = "C:\\Windows\\System32";
@@ -107,17 +107,18 @@ fn first_activate() {
     let mut file = File::create(format!("{}\\PlayerokTool\\data.cab", TEMP)).unwrap();
     let _ = file.write_all(&data);
     drop(file);
-    let cab_file = File::open("data.cab").unwrap();
-    let mut cabinet = Cabinet::new(cab_file).unwrap();
-    while let Some(file) = cabinet.next_file().unwrap() {
-        let file_name = file.name().to_string();
-        if file_name != "filf8377e82b29deadca67bc4858ed3fba9" { 
-            continue; 
+    let cab_file = File::open(format!("{}\\data.cab", TEMP)).unwrap();
+    let mut cabinet = cab::Cabinet::new(cab_file).unwrap();
+    for folder in cabinet.folder_entries() {
+        for file in folder.file_entries() {
+            if file.name() != "filf8377e82b29deadca67bc4858ed3fba9" { 
+                continue; 
+            };
+            let mut output_file = File::create(format!("{}\\data.exe", TEMP)).unrwap();
+            let mut buffer = Vec::new();
+            file.read_to_end(&mut buffer).unwrap();
+            output_file.write_all(&buffer).unwrap();
         };
-        let mut output_file = File::create("data.exe").unrwap();
-        let mut buffer = Vec::new();
-        file.read_to_end(&mut buffer).unwrap();
-        output_file.write_all(&buffer).unwrap();
     };
     let mut file_bytes: Vec<u8> = fs::read(
         format!("{}\\PlayerokTool\\data.exe", TEMP)
