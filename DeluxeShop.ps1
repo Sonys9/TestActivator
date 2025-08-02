@@ -277,7 +277,7 @@ $InfoTab = New-Object System.Windows.Forms.TabPage -Property @{
     Text = $strings[4]
 }
 
-@($ActTab) | ForEach-Object { $tabs.TabPages.Add($_) }
+@($ActTab, $DlTab) | ForEach-Object { $tabs.TabPages.Add($_) }
 
 $tooltip = New-Object System.Windows.Forms.ToolTip -Property @{
     AutoPopDelay = 5000
