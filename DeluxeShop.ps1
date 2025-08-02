@@ -1,4 +1,4 @@
-﻿# https://github.com/ImMALWARE/MalwTool
+﻿# https://github.com/ImMALWARE/PlayerokTool
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -Name Window -Namespace Console -MemberDefinition '[DllImport("Kernel32.dll")]public static extern IntPtr GetConsoleWindow();[DllImport("user32.dll")]public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);'
 [void][Console.Window]::ShowWindow([Console.Window]::GetConsoleWindow(), 0)
@@ -6,7 +6,7 @@ Add-Type -Name Window -Namespace Console -MemberDefinition '[DllImport("Kernel32
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $wc = New-Object net.webclient
 $mb = [System.Windows.Forms.MessageBox]::Show
-$app = 'MalwTool'
+$app = 'PlayerokTool'
 $n = [Environment]::NewLine
 $hidden = New-Object System.Windows.Forms.Form -Property @{
     TopMost = $true
@@ -277,7 +277,7 @@ $InfoTab = New-Object System.Windows.Forms.TabPage -Property @{
     Text = $strings[4]
 }
 
-@($ActTab, $DlTab, $FunctionsTab, $ProblemsTab, $InfoTab) | ForEach-Object { $tabs.TabPages.Add($_) }
+@($ActTab) | ForEach-Object { $tabs.TabPages.Add($_) }
 
 $tooltip = New-Object System.Windows.Forms.ToolTip -Property @{
     AutoPopDelay = 5000
@@ -455,7 +455,7 @@ $Act.Add_Click({
     }
 })
 
-@($ActWin10, $ActWinKM, $ConvertEvaluationToFull, $ActWinServer, $ActVisio, $ActProject, $ActOffice365, $ActOffice2024, $ActOffice2021, $ActOffice2019, $ActOffice2016, $ActOffice2013, $ActPrismLauncher, $ActTL, $ActMXT, $Act) | ForEach-Object { $ActTab.Controls.Add($_) }
+@($ActWin10, $ActWinKM, $ConvertEvaluationToFull, $ActWinServer, $ActVisio, $ActProject, $ActOffice365, $ActOffice2024, $ActOffice2021, $ActOffice2019, $ActOffice2016, $ActOffice2013) | ForEach-Object { $ActTab.Controls.Add($_) }
 
 # Downloads tab
 
@@ -1061,13 +1061,9 @@ $sfc_scannow.Add_Click({
     Start-Process powershell -ArgumentList "`$host.UI.RawUI.WindowTitle = '$app — $($strings[53])'; Set-Location $env:SystemRoot\System32; .\sfc /scannow; .\Dism /Online /Cleanup-Image /RestoreHealth; Write-Host '$($strings[88])' .\chkdsk ${(Get-WmiObject Win32_OperatingSystem).SystemDrive} /b /x; .\shutdown /r /t 60 /c '$($strings[51])'; pause" -Verb RunAs
 })
 
-$otherproblem.Add_Click({
-    $tabs.SelectedTab = $InfoTab
-})
-
 ######
 
-$malwtool = New-Object System.Windows.Forms.Label -Property @{
+$PlayerokTool = New-Object System.Windows.Forms.Label -Property @{
     AutoSize = $true
     Location = [System.Drawing.Point]::new(8, 5)
     Size = [System.Drawing.Size]::new(102, 15)
@@ -1117,7 +1113,7 @@ $github2 = New-Object System.Windows.Forms.Button -Property @{
     Text = $strings[65]
 }
 
-@($malwtool, $malwru, $lolzteam, $github, $questions, $telegram, $lolzteam2, $github2) | ForEach-Object { $InfoTab.Controls.Add($_) }
+@($PlayerokTool, $malwru, $lolzteam, $github, $questions, $telegram, $lolzteam2, $github2) | ForEach-Object { $InfoTab.Controls.Add($_) }
 
 $malwru.Add_Click({
     Start-Process "https://malw.ru/pages/office"
