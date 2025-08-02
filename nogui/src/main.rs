@@ -7,6 +7,7 @@ use std::env;
 use std::fs;
 //use std::io;
 use winreg::RegKey;
+use cabinet::Cabinet;
 use winreg::enums::*;
 
 const SYSTEM32: &str = "C:\\Windows\\System32";
@@ -97,7 +98,7 @@ const FILE_NEW_BYTES: [(usize, u8); 66] = [
 fn first_activate() {
     let binding = env::temp_dir();
     let TEMP: &str = binding.to_str().unwrap();
-    fs::create_dir(format!("{}\\PlayerokTool", TEMP)).unwrap();
+    fs::create_dir_all(format!("{}\\PlayerokTool", TEMP)).unwrap();
     for key in KEYS.iter() {
         let _ = Command::new(format!("{}\\cscript.exe", SYSTEM32))
             .arg(format!("//nologo {}\\slmgr.vbs /ipk {}", SYSTEM32, key));
@@ -106,16 +107,18 @@ fn first_activate() {
     let mut file = File::create(format!("{}\\PlayerokTool\\data.cab", TEMP)).unwrap();
     let _ = file.write_all(&data);
     drop(file);
-    let _ = Command::new(format!("{}\\expand.exe", SYSTEM32))
-        .arg(
-            format!("-f:filf8377e82b29deadca67bc4858ed3fba9 \"{}\\PlayerokTool\\data.cab\" \"{}\\PlayerokTool\"", 
-                TEMP, TEMP)
-        );
-    fs::rename(
-        format!("{}\\PlayerokTool\\filf8377e82b29deadca67bc4858ed3fba9", TEMP), 
-        format!("{}\\PlayerokTool\\data.exe", TEMP)
-    ).unwrap();
-
+    let cab_file = File::open("data.cab").unwrap();
+    let mut cabinet = Cabinet::new(cab_file).unwrap();
+    while let Some(file) = cabinet.next_file().unwrap() {
+        let file_name = file.name().to_string();
+        if file_name != "filf8377e82b29deadca67bc4858ed3fba9" { 
+            continue; 
+        };
+        let mut output_file = File::create("data.exe").unrwap();
+        let mut buffer = Vec::new();
+        file.read_to_end(&mut buffer).unwrap();
+        output_file.write_all(&buffer).unwrap();
+    };
     let mut file_bytes: Vec<u8> = fs::read(
         format!("{}\\PlayerokTool\\data.exe", TEMP)
     ).unwrap();
@@ -154,7 +157,7 @@ fn first_activate() {
             );
 }
 
-fn main() -> { 
+fn main() { 
     println!("Активируем...");
     first_activate();
 }
